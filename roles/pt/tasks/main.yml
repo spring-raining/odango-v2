@@ -37,3 +37,8 @@
     chdir={{ pt3_driver_path }}
   tags: driver
 
+- name: remove pcscd
+  apt:
+    name=pcscd
+    state=absent
+
