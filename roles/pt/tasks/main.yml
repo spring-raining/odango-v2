@@ -1,0 +1,39 @@
+---
+- name: add modprobe
+  blockinfile:
+    dest: /etc/modprobe.d/blacklist.conf
+    create: yes
+    content: |
+      blacklist earth-pt1
+      blacklist earth-pt3
+  tags: driver
+
+- name: clone driver repository
+  git:
+    repo=https://github.com/m-tsudo/pt3.git
+    dest={{ pt3_driver_path }}
+    version={{ pt3_driver_version }}
+  tags: driver
+
+- name: make driver
+  command:
+    make
+    chdir={{ pt3_driver_path }}
+  tags: driver
+
+- name: make install driver
+  command:
+    make install
+    chdir={{ pt3_driver_path }}
+  tags: driver
+
+- name: install dkms
+  apt: name=dkms
+  tags: driver
+
+- name: enable dkms for pt3 driver
+  command:
+    ${SHELL} ./dkms.install
+    chdir={{ pt3_driver_path }}
+  tags: driver
+

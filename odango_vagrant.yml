@@ -4,4 +4,5 @@
   user: vagrant
   roles:
     - debian_common
+    - pt
 
