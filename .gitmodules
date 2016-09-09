@@ -1,0 +1,3 @@
+[submodule "docker-mirakurun-chinachu"]
+	path = docker-mirakurun-chinachu
+	url = https://github.com/Chinachu/docker-mirakurun-chinachu.git
