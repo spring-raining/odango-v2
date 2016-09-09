@@ -1,3 +1,6 @@
 [submodule "docker-mirakurun-chinachu"]
 	path = docker-mirakurun-chinachu
 	url = https://github.com/Chinachu/docker-mirakurun-chinachu.git
+[submodule "roles/debian_common"]
+	path = roles/debian_common
+	url = git://github.com/YasuhiroKinoshita/ansible_debian_common_roles.git
