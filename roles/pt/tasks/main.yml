@@ -41,4 +41,29 @@
   apt:
     name=pcscd
     state=absent
+  tags: remove-pcscd
+
+#- name: reboot
+#  shell: "sleep 2s && /sbin/reboot"
+#  async: 1
+#  poll: 0
+#  tags: driver
+
+#- name: wait for the server to come up
+#  local_action: wait_for host={{ inventory_hostname }} port=22 delay=30
+#  tags: driver
+#
+- name: reboot vagrant host
+  command: vagrant reload
+  delegate_to: 127.0.0.1
+  become: false
+  changed_when: false
+
+- name: check the pt3 device
+  stat: path=/dev/pt3video0
+  register: pt3
+  tags: driver
+
+#- fail: msg="/dev/pt3video0 does not found"
+#  when: not pt3.stat.exists
 

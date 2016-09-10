@@ -1,6 +1,6 @@
 ---
 - hosts: vagrant
-  sudo: true
+  become: true
   user: vagrant
   vars_files:
     - secret_vars.yml

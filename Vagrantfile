@@ -91,10 +91,4 @@ Vagrant.configure(2) do |config|
   # See https://github.com/mitchellh/vagrant/issues/5005
   config.ssh.insert_key = false
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.verbose = "vvv"
-    ansible.playbook = "odango_vagrant.yml"
-    ansible.inventory_path = "hosts"
-    ansible.limit = "vagrant"
-  end
 end
