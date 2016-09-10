@@ -1,0 +1,24 @@
+---
+- name: install chrony (NTP server)
+  apt: name=chrony
+  tags: chrony
+
+- name: restart chrony
+  service: name=chrony state=restarted
+  tags: chrony
+
+- name: create chinachu user
+  user:
+    name=chinachu
+    password='{{ chinachu_user_password }}'
+    home={{ chinachu_home_dir }}
+    shell=/bin/bash
+    groups=sudo
+  tags: chinachu_user
+
+- name: add authorized keys for chinachu
+  authorized_key:
+    user=chinachu
+    key="{{ lookup('file', item) }}"
+  with_items: pre_chinachu_private_key
+  tags: chiachu_user

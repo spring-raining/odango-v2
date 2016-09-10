@@ -2,7 +2,10 @@
 - hosts: vagrant
   sudo: true
   user: vagrant
+  vars_files:
+    - secret_vars.yml
   roles:
     - debian_common
     - pt
+    - pre_odango
 
