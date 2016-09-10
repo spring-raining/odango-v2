@@ -1,4 +1,24 @@
 ---
+- name: install make
+  apt: name=make
+  tags: make
+
+- name: install linux-headers
+  apt: name=linux-headers-{{ ansible_kernel }}
+  tags: linux-headers
+
+- name: install pkg-config
+  apt: name=pkg-config
+  tags: pkg-config
+
+- name: install gcc
+  apt: name=gcc
+  tags: gcc
+
+- name: install autoconf
+  apt: name=autoconf
+  tags: autoconf
+
 - name: add modprobe
   blockinfile:
     dest: /etc/modprobe.d/blacklist.conf
