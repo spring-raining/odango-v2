@@ -9,3 +9,9 @@
     - pt
     - pre_odango
 
+- hosts: vagrant
+  become: true
+  user: chinachu
+  roles:
+    - docker
+

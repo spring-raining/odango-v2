@@ -1,0 +1,44 @@
+---
+- name: add user to docker group
+  user:
+    name=chinachu
+    groups=docker
+    append=yes
+  tags: add-docker-group
+
+- name: check user groups
+  shell: id -a
+  become: false
+  register: group_status
+  changed_when: false
+  tags: add-docker-group
+
+- name: logout when user is not added to docker group
+  shell: "sleep 2 && pkill -u chinachu sshd"
+  become: true
+  async: 1
+  poll: 0
+  when: group_status.stdout.find('docker') == -1
+  tags: add-docker-group
+
+- name: re-login
+  local_action: wait_for
+    host={{ inventory_hostname }}
+    port={{ ansible_port }}
+    delay=10
+  become: false
+  when: group_status.stdout.find('docker') == -1
+  tags: add-docker-group
+
+- name: clone docker-ansible-chinachu
+  git:
+    repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git
+    version=master
+    dest={{ docker_dir }}
+    force=yes
+  tags: deploy-docker-mirakurun-chinachu
+
+- name: deploy docker_compose
+  docker_service:
+    project_src={{ docker_dir }}
+  tags: deploy-docker-mirakurun-chinachu

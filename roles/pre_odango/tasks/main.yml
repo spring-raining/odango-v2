@@ -7,6 +7,70 @@
   service: name=chrony state=restarted
   tags: chrony
 
+- name: check docker
+  shell: docker info
+  ignore_errors: true
+  register: docker_info
+  tags: docker
+
+- name: install docker
+  shell: curl -sSL https://get.docker.com/ | sh
+  become: false
+  when: docker_info | failed
+  tags: docker
+
+- name: restart docker
+  service: name=docker state=restarted
+  tags: docker
+
+- name: make sure docker is installed
+  shell: docker info
+  ignore_errors: true
+  register: docker_info
+  tags: docker
+
+- fail: msg="Something went wrong during docker installation"
+  when: docker_info | failed
+  tags: docker
+
+- name: check pip
+  shell: pip -V
+  ignore_errors: true
+  register: pip_version
+  tags: pip
+
+- name: install pip
+  shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+  when: pip_version | failed
+  tags: pip
+
+- name: make sure pip is installed
+  shell: pip -V
+  ignore_errors: true
+  register: pip_version
+  tags: pip
+
+- fail: msg="Something went wrong during pip installation"
+  when: pip_version | failed
+  tags: pip
+
+#- name: install pip
+#  easy_install: name=pip
+#  tags: pip
+
+- name: install PyYAML
+  pip: name=PyYAML
+  tags: PyYAML
+
+# https://github.com/ansible/ansible/issues/17495
+- name: install docker-py
+  pip: name=docker-py version=1.9.0
+  tags: docker-py
+
+- name: install docker-compose
+  pip: name=docker-compose
+  tags: docker-compose
+
 - name: create chinachu user
   user:
     name=chinachu
@@ -22,3 +86,4 @@
     key="{{ lookup('file', item) }}"
   with_items: pre_chinachu_private_key
   tags: chiachu_user
+
