@@ -1,3 +1,4 @@
 ---
-docker_dir: /chinachu/docker
+repo_dir: /chinachu/docker/docker-mirakurun-chinachu
+docker_compose_dir: /chinachu/docker
 

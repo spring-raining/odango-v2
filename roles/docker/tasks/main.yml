@@ -34,11 +34,21 @@
   git:
     repo=https://github.com/Chinachu/docker-mirakurun-chinachu.git
     version=master
-    dest={{ docker_dir }}
+    dest={{ repo_dir }}
     force=yes
-  tags: deploy-docker-mirakurun-chinachu
+  become: false
+  tags: deploy-docker
+
+- name: generate docker-compose.yml
+  template:
+    src=docker-compose.yml.j2
+    dest={{ docker_compose_dir }}/docker-compose.yml
+    mode=755
+  become: false
+  tags: deploy-docker
 
 - name: deploy docker_compose
   docker_service:
-    project_src={{ docker_dir }}
-  tags: deploy-docker-mirakurun-chinachu
+    project_src={{ docker_compose_dir }}
+  become: false
+  tags: deploy-docker
