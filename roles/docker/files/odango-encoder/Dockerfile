@@ -62,7 +62,6 @@ RUN set -x \
         && cd ${ENCODER_WORKDIR} \
         && git checkout master \
         && npm install \
-        && npm install -g pm2 \
 
         # cleaning
         && apk del --purge .build-deps \
@@ -70,6 +69,6 @@ RUN set -x \
         && rm -rf /var/cache/apk/*
 
 ADD services.sh /usr/local/bin
-CMD ["/usr/local/bin/serivces.sh"]
+CMD ["/usr/local/bin/services.sh"]
 EXPOSE 6000
 
