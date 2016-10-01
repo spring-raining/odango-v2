@@ -32,3 +32,15 @@ services:
       - ./recorded:/usr/local/chinachu/recorded
     links:
       - mirakurun:container-mirakurun
+      - odango-encoder:container-odango-encoder
+
+  odango-encoder:
+    build:
+      context: {{ odango_encoder_dir }}
+    container_name: odango-encoder
+    restart: always
+    ports:
+      - "6000:6000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./recorded:/usr/local/chinachu/recorded

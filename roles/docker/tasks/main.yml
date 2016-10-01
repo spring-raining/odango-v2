@@ -39,6 +39,14 @@
   become: false
   tags: deploy-docker
 
+- name: copy docker-odango-encoder files
+  copy:
+    src=odango-encoder/
+    dest={{ odango_encoder_dir }}
+    mode=755
+  become: false
+  tags: deploy-docker
+
 - name: generate docker-compose.yml
   template:
     src=docker-compose.yml.j2
