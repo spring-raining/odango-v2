@@ -10,8 +10,8 @@ services:
       - "40772:40772"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./mirakurun/conf:/usr/local/etc/mirakurun
-      - ./mirakurun/db:/usr/local/var/db/mirakurun
+      - ./mnt/mirakurun/conf:/usr/local/etc/mirakurun
+      - ./mnt/mirakurun/db:/usr/local/var/db/mirakurun
 
   chinachu:
     build:
@@ -26,10 +26,11 @@ services:
       - "5353:5353/udp"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./chinachu/conf/config.json:/usr/local/chinachu/config.json
-      - ./chinachu/conf/rules.json:/usr/local/chinachu/rules.json
-      - ./chinachu/data:/usr/local/chinachu/data
-      - ./recorded:/usr/local/chinachu/recorded
+      - ./mnt/chinachu/conf/config.json:/usr/local/chinachu/config.json
+      - ./mnt/chinachu/conf/rules.json:/usr/local/chinachu/rules.json
+      - ./mnt/chinachu/data:/usr/local/chinachu/data
+      - ./encode.sh:/usr/local/bin/encode.sh
+      - /chinachu/recorded:/usr/local/chinachu/recorded
     links:
       - mirakurun:container-mirakurun
       - odango-encoder:container-odango-encoder
@@ -43,4 +44,4 @@ services:
       - "6000:6000"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./recorded:/usr/local/chinachu/recorded
+      - /chinachu/recorded:/usr/local/chinachu/recorded

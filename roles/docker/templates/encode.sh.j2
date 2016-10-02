@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# $1 recorded data path
+# $2 program data (JSON)
+
+curl -XPOST localhost:6000 -d "{\"input\": \"$1\", \"outputDir\": \"{{ output_dir }}\", \"programData\": $2}"
+

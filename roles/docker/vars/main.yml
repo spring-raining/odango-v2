@@ -2,4 +2,7 @@
 repo_dir: /chinachu/docker/docker-mirakurun-chinachu
 docker_compose_dir: /chinachu/docker
 odango_encoder_dir: /chinachu/docker/odango-encoder/
+mirakurun_mnt_dir: /chinachu/docker/mnt/mirakurun/
+chinachu_mnt_dir: /chinachu/docker/mnt/chinachu/
+output_dir: /mnt/odango
 

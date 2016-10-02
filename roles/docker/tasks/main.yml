@@ -43,6 +43,27 @@
   copy:
     src=odango-encoder/
     dest={{ odango_encoder_dir }}
+  become: false
+  tags: deploy-docker
+
+- name: copy mirakurun files
+  copy:
+    src=mirakurun/
+    dest={{ mirakurun_mnt_dir }}
+  become: false
+  tags: deploy-docker
+
+- name: copy chinachu files
+  copy:
+    src=chinachu/
+    dest={{ chinachu_mnt_dir }}
+  become: false
+  tags: deploy-docker
+
+- name: generate encode.sh
+  template:
+    src=encode.sh.j2
+    dest={{ docker_compose_dir }}/encode.sh
     mode=755
   become: false
   tags: deploy-docker
