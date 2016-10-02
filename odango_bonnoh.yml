@@ -1,20 +1,13 @@
 ---
-- hosts: vagrant
+- hosts: bonnoh
   become: true
-  user: vagrant
+  user: chinachu
   vars_files:
     - secret_vars.yml
   vars:
-    target: vagrant
+    target: bonnoh
   roles:
     - debian_common
     - pt
-    # - mackerel
     - pre_odango
-
-- hosts: vagrant
-  become: true
-  user: chinachu
-  roles:
     - docker
-

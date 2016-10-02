@@ -19,6 +19,12 @@
   apt: name=autoconf
   tags: autoconf
 
+- name: remove pcscd
+  apt:
+    name=pcscd
+    state=absent
+  tags: remove-pcscd
+
 - name: add modprobe
   blockinfile:
     dest: /etc/modprobe.d/blacklist.conf
@@ -57,33 +63,33 @@
     chdir={{ pt3_driver_path }}
   tags: driver
 
-- name: remove pcscd
-  apt:
-    name=pcscd
-    state=absent
-  tags: remove-pcscd
-
-#- name: reboot
-#  shell: "sleep 2s && /sbin/reboot"
-#  async: 1
-#  poll: 0
-#  tags: driver
-
-#- name: wait for the server to come up
-#  local_action: wait_for host={{ inventory_hostname }} port=22 delay=30
-#  tags: driver
-#
 - name: reboot vagrant host
   command: vagrant reload
   delegate_to: 127.0.0.1
   become: false
   changed_when: false
+  when: target == 'vagrant'
+  tags: driver
+
+- name: reboot bonnoh
+  shell: "sleep 2s && /sbin/reboot"
+  async: 1
+  poll: 0
+  when: target == 'bonnoh'
+  tags: driver
+
+- name: wait for the server to come up
+  local_action: wait_for host={{ inventory_hostname }} port=22 delay=30
+  when: target == 'bonnoh'
+  tags: driver
 
 - name: check the pt3 device
   stat: path=/dev/pt3video0
   register: pt3
+  when: target != 'vagrant'
   tags: driver
 
-#- fail: msg="/dev/pt3video0 does not found"
-#  when: not pt3.stat.exists
+- fail: msg="/dev/pt3video0 does not found"
+  when: target != 'vagrant' and not pt3.stat.exists
+  tags: driver
 

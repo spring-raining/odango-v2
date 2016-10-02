@@ -78,6 +78,7 @@
     home={{ chinachu_home_dir }}
     shell=/bin/bash
     groups=sudo
+  when: target != 'bonnoh'
   tags: chinachu_user
 
 - name: add authorized keys for chinachu
@@ -85,5 +86,6 @@
     user=chinachu
     key="{{ lookup('file', item) }}"
   with_items: pre_chinachu_private_key
+  when: target != 'bonnoh'
   tags: chiachu_user
 
